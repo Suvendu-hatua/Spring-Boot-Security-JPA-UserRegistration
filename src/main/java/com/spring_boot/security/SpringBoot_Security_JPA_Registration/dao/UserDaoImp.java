@@ -3,6 +3,7 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDaoImp implements  UserDao{
     private final EntityManager entityManager;
 
+    @Autowired
     public UserDaoImp(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
