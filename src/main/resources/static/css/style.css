@@ -1,3 +1,9 @@
 body{
     background-color: #E0FFFF;
 }
+.teacher-profile{
+    width: 220px; /* Set the width of the image */
+    height: 200px; /* Set the height of the image */
+    border-radius: 50%; /* This makes the image circular */
+     object-fit: cover
+}

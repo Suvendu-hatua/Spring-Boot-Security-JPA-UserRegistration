@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,6 +19,14 @@ import java.util.*;
 public class UserServiceImp implements  UserService{
     private final UserDao userDao;
     private final RoleDao roleDao;
+
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImp(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     public UserServiceImp(UserDao userDao, RoleDao roleDao) {
@@ -36,7 +45,7 @@ public class UserServiceImp implements  UserService{
         //creating an user instance ---> will be stored in the DB.
         User user=new User();
         user.setUsername(webUser.getUserName());
-        user.setPassword(webUser.getPassword());
+        user.setPassword(passwordEncoder.encode(webUser.getPassword()));
         user.setFirstName(webUser.getFirstName());
         user.setLastName(webUser.getLastName());
         user.setEmail(webUser.getEmail());
