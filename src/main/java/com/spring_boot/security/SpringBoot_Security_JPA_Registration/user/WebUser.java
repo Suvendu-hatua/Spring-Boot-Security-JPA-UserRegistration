@@ -25,8 +25,8 @@ public class WebUser {
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",message = "must be a well formed email address.")
     private String email;
 
-    @AssertTrue(message = "you must agree trams and conditions.")
-    private boolean isAgreed;
+    @AssertTrue(message = "You must accept terms and conditions.")
+    private boolean selected;
 
     public @NotBlank(message = "is required!") @Size(min = 3, message = "username must be of at least 3 characters.") String getUserName() {
         return userName;
@@ -68,16 +68,15 @@ public class WebUser {
         this.email = email;
     }
 
-    @AssertTrue(message = "you must agree trams and conditions.")
-    public boolean isAgreed() {
-        return isAgreed;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public void setAgreed(@AssertTrue(message = "you must agree trams and conditions.") boolean agreed) {
-        isAgreed = agreed;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
-   //implementing toString() Method -->
+    //implementing toString() Method -->
 
     @Override
     public String toString() {
@@ -87,7 +86,7 @@ public class WebUser {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", isAgreed=" + isAgreed +
+                ", isAgreed=" + selected +
                 '}';
     }
 }

@@ -22,18 +22,12 @@ public class UserServiceImp implements  UserService{
 
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImp(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.passwordEncoder = passwordEncoder;
     }
-
-    @Autowired
-    public UserServiceImp(UserDao userDao, RoleDao roleDao) {
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-    }
-
 
     @Override
     public User findUserByName(String userName) {
@@ -53,7 +47,8 @@ public class UserServiceImp implements  UserService{
         user.setEnabled(true);
 
         //Setting roles as ROLE_EMPLOYEE (Default Role)
-        Set<Role> set=new HashSet<>(List.of(roleDao.findRoleByName("ROLE_EMPLOYEE")));
+        Set<Role> set=new HashSet<>();
+        set.add(roleDao.findRoleByName("ROLE_STUDENT"));
         user.setRoles(set);
 
         //saving user to database.

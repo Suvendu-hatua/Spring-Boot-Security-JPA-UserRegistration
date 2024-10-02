@@ -7,3 +7,9 @@ body{
     border-radius: 50%; /* This makes the image circular */
      object-fit: cover
 }
+.review{
+     background-color: #87CEEB;
+}
+.form-label{
+    font-weight:bold;
+}
