@@ -73,8 +73,17 @@
 
                    </div>
                </div>
-               <div class="mb-2">
+               <div class="mb-2 col-md-6">
                    <label for="email" class="form-label">Email Address</label>
+                   <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email Address"
+                          th:classappend="${#fields.hasErrors('email')?'is-invalid':''}" autocomplete="off" th:value="*{email}">
+                   <!--                   Handling form field errors-->
+                   <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="${webUser.email}">
+
+                   </div>
+               </div>
+               <div class="mb-2 col-md-6">
+                   <label for="email" class="form-label">Gender</label>
                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email Address"
                           th:classappend="${#fields.hasErrors('email')?'is-invalid':''}" autocomplete="off" th:value="*{email}">
                    <!--                   Handling form field errors-->
@@ -84,7 +93,7 @@
                </div>
                <div class="mb-1 form-check">
                    <input type="checkbox" class="form-check-input" id="isAgreed" name="selected" th:classappend="${#fields.hasErrors('selected')?'is-invalid':''}">
-                   <label class="form-check-label" for="isAgreed">Please Accept <a href="/trams">Trams and Conditions</a></label>
+                   <label class="form-check-label" for="isAgreed">Please Accept <a href="">Trams and Conditions</a></label>
                    <!--                   Handling form field errors-->
                    <div class="invalid-feedback" th:if="${#fields.hasErrors('selected')}" th:errors="${webUser.selected}">
 
@@ -97,4 +106,5 @@
 
 <!--Adding Footer Part-->
 <div class="pt-4 mt-5" th:insert="footer-fragment::footer" style="background-color:#2F4F4F; color:white;"> </div>
+</body>
 </html>
