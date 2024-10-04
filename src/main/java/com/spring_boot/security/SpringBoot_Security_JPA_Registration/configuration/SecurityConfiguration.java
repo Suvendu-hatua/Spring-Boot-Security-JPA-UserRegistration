@@ -29,6 +29,8 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests(configurer->
                 configurer
+                        .requestMatchers("/systems/**").hasRole("ADMIN")
+                        .requestMatchers("/security-meeting").hasAnyRole("ADMIN","TEACHER","STUDENT")
                         .requestMatchers("/css/**","/images/**").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .anyRequest().authenticated()
