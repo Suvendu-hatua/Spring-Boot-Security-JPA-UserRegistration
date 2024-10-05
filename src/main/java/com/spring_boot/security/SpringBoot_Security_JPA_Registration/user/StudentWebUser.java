@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class WebUser {
+public class StudentWebUser {
     @NotBlank(message = "is required!")
     @Size(min = 3,message = "username must be of at least 3 characters.")
     private String userName;
@@ -24,6 +24,20 @@ public class WebUser {
     @NotBlank(message = "is required!")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",message = "must be a well formed email address.")
     private String email;
+
+    @NotBlank(message = "is required!")
+    @Pattern(regexp = "^[6-9]\\d{9}$", message = "must be of 10 digits only.")
+    private String mobileNo="";
+
+    @NotBlank(message = "is required!")
+    private String gender;
+
+
+    private String course;
+
+    private String address;
+
+    private String country;
 
     @AssertTrue(message = "You must accept terms and conditions.")
     private boolean selected;
@@ -76,17 +90,61 @@ public class WebUser {
         this.selected = selected;
     }
 
-    //implementing toString() Method -->
+    public @NotBlank(message = "is required!") String getGender() {
+        return gender;
+    }
+
+    public void setGender(@NotBlank(message = "is required!") String gender) {
+        this.gender = gender;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+//implementing toString() Method -->
 
     @Override
     public String toString() {
-        return "WebUser{" +
+        return "StudentWebUser{" +
                 "userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", isAgreed=" + selected +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", gender='" + gender + '\'' +
+                ", course='" + course + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                ", selected=" + selected +
                 '}';
     }
 }

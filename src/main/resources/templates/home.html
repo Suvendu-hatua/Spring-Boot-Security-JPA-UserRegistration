@@ -15,7 +15,7 @@
 
     <div class="container mt-3 mb-4">
         <div class="d-flex justify-content-between">
-            <h2 class="fw-bold">Student Management System</h2>
+            <h2 class="fw-bold">Gobardhanpur Pramathanath Vidyayatan</h2>
             <!--        Adding logout button-->
             <form action="#" th:action="@{/logout}" method="post">
                 <button type="submit" value="Logout" class="btn btn-warning"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
@@ -214,8 +214,14 @@
                     <div class="card-body">
                         <h6 class="card-title fw-bold">Upcoming Meetings and webinars</h6>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><span class="badge text-bg-warning">New</span> <a href="">Security Awareness Meeting</a></li>
-                            <li><span class="badge text-bg-warning">New</span> <a href="">IT System Meeting</a></li>
+                            <li class="mb-2" sec:authorize="hasAnyRole('ADMIN','TEACHER','STUDENT')">
+                                <span class="badge text-bg-warning">New</span>
+                                <a th:href="@{/security-meeting}">Security Awareness Meeting</a>
+                            </li>
+                            <li sec:authorize="hasRole('ADMIN')">
+                                <span class="badge text-bg-warning">New</span>
+                                <a th:href="@{/systems/it-meeting}">IT System Meeting</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.WebUser;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.StudentWebUser;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +29,17 @@ public class RegistrationController {
 
     @GetMapping("/showRegistration")
     public String showRegistrationForm(Model theModel){
-        //creating instance of webUser to store new entry
-        WebUser webUser=new WebUser();
+        //creating instance of studentWebUser to store new entry
+        StudentWebUser studentWebUser =new StudentWebUser();
 //        Adding instance to model
-        theModel.addAttribute("webUser",webUser);
+        theModel.addAttribute("studentWebUser", studentWebUser);
         return "registration/show-registration";
     }
 
     @PostMapping("/submit-registration")
-    public String submitRegistration(@Valid @ModelAttribute("webUser") WebUser webUser,
+    public String submitRegistration(@Valid @ModelAttribute("studentWebUser") StudentWebUser studentWebUser,
                                      BindingResult bindingResult, HttpSession session,Model theModel){
-        String userName=webUser.getUserName();
+        String userName= studentWebUser.getUserName();
         logger.info("Processing Registration for:"+userName);
 
         if(bindingResult.hasErrors()){
@@ -52,16 +52,16 @@ public class RegistrationController {
             //Already same username exists in the database.
             theModel.addAttribute("registrationError",true);
             theModel.addAttribute("message","username already exists. Choose a different username.");
-            theModel.addAttribute("webUser",new WebUser());
+            theModel.addAttribute("studentWebUser",new StudentWebUser());
             logger.warning("User name already exists.");
             return "registration/show-registration";
         }
         //saving new entry in the database.
-        userService.save(webUser);
+        userService.saveAsStudent(studentWebUser);
         logger.info("Successfully created user: " + userName);
 
         //Placing user in http session for later use.
-        session.setAttribute("user",webUser);
+        session.setAttribute("user", studentWebUser);
 
         return "registration/registration-confirmation";
     }
