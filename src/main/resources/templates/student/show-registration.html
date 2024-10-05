@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!--Adding CDN file of Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!--Adding Header(Navbar ) Fragment to page-->
+    <div th:insert="navbar-fragment::navbar"></div>
+    <div class="container mt-4">
+       <div class=" card w-75 mx-auto p-4">
+           <div class="d-flex justify-content-between">
+               <div>
+                   <img th:src="@{/images/graduation.jpg}" class="" style="height:80px" alt="...">
+                   <span class="fw-bold">GPNV</span>
+               </div>
+               <div >
+                    <h6 >Gobardhanpur Pramathanath Vidyayatan</h6>
+                    <p class="float-end fw-light small mb-0">Medinipur, West Bengal
+                        <br>
+                        help.gpnv@gmail.com
+                        <br>
+                        +91- 8918392964
+                    </p>
+               </div>
+           </div>
+           <hr style="margin:0;">
+           <h5 class="fw-semibold review my-2 p-2">STUDENT ADMISSION FORM</h5>
+           <form class="row g-3" th:action="@{/register/submit-registration}" th:object="${studentWebUser}" method="post">
+               <div class="mb-1">
+                   <!--                   for displaying error -->
+                   <div th:if="${registrationError}" class="p-2 text-danger bg-danger-subtle border border-danger-subtle rounded-3">
+                       <span th:text="${message}"></span>
+                   </div>
+               </div>
+               <div class="mb-2 col-md-6">
+                   <label for="username" class="form-label">User Name</label>
+                   <input type="text" class="form-control"  id="username" name="userName" placeholder="Enter username"
+                          th:classappend="${#fields.hasErrors('userName')?'is-invalid':''}" autocomplete="off" th:value="*{userName}">
+<!--                   Handling form field errors-->
+                   <div class="invalid-feedback" th:if="${#fields.hasErrors('userName')}" th:errors="${studentWebUser.userName}">
+
+                   </div>
+               </div>
+               <div class="mb-2 col-md-6">
+                   <label for="password" class="form-label">Password</label>
+                   <input type="password" class="form-control" id="password" name="password"
+                          th:classappend="${#fields.hasErrors('password')?'is-invalid':''}" placeholder="Enter Password">
+<!--                   Handling form field errors-->
+                   <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="${studentWebUser.password}">
+
+                   </div>
+               </div>
+
+<!--               **************-->
+               <div class="accordion" id="accordionExample">
+                   <div class="accordion-item">
+                       <h2 class="accordion-header">
+                           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                               <i class="fa-solid fa-address-card fa-lg"></i> <span class="fw-bold ms-2">Personal Information</span>
+                           </button>
+                       </h2>
+                       <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                           <div class="accordion-body">
+                               <div class="row">
+                                   <div class="mb-2 col-md-6">
+                                       <label for="firstName" class="form-label">First Name</label>
+                                       <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name"
+                                              th:classappend="${#fields.hasErrors('firstName')?'is-invalid':''}" autocomplete="off" th:value="*{firstName}">
+                                       <!--                   Handling form field errors-->
+                                       <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="${studentWebUser.firstName}">
+
+                                       </div>
+                                   </div>
+                                   <div class="mb-2 col-md-6">
+                                       <label for="lastName" class="form-label">Last Name</label>
+                                       <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name"
+                                              th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}" autocomplete="off" th:value="*{lastName}">
+                                       <!--                   Handling form field errors-->
+                                       <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="${studentWebUser.lastName}">
+
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="row">
+                                   <div class="mb-2 col-md-6">
+                                       <label for="email" class="form-label">Email Address</label>
+                                       <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email Address"
+                                              th:classappend="${#fields.hasErrors('email')?'is-invalid':''}" autocomplete="off" th:value="*{email}">
+                                       <!--                   Handling form field errors-->
+                                       <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="${studentWebUser.email}">
+
+                                       </div>
+                                   </div>
+                                   <div class="mb-2 col-md-6">
+                                       <label for="mobileNo" class="form-label">Mobile Number</label>
+                                       <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter 10 digit Mobile Number"
+                                              th:classappend="${#fields.hasErrors('mobileNo')?'is-invalid':''}" autocomplete="off" th:value="*{mobileNo}">
+                                       <!--                   Handling form field errors-->
+                                       <div class="invalid-feedback" th:if="${#fields.hasErrors('mobileNo')}" th:errors="${studentWebUser.mobileNo}">
+
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="row">
+                                   <div class="mb-2 col-md-6">
+                                       <label for="course" class="form-label">Course</label>
+                                       <select id="course" class="form-select" name="course" aria-label="Default select example">
+                                           <option>Select an Option</option>
+                                           <option th:each="tempCourse:${courseList}" th:text="${tempCourse}"
+                                                   th:value="${tempCourse}"  th:selected="${studentWebUser.course==tempCourse?true:false}">
+
+                                           </option>
+                                       </select>
+                                   </div>
+                                   <div class="mb-2 col-md-6">
+                                       <label for="address" class="form-label">Address</label>
+                                       <input type="text" class="form-control" id="address" name="address" placeholder="Enter address details"
+                                            autocomplete="off" th:value="*{address}">
+                                       <!--                   Handling form field errors-->
+
+                                   </div>
+                               </div>
+                               <div class="row">
+                                   <div class="mb-2 col-md-6">
+                                       <label for="country" class="form-label">Country</label>
+                                       <select id="country" class="form-select" name="country" aria-label="Default select example">
+                                           <option>Select an Option</option>
+                                           <option th:each="tempCountry:${countryList}" th:text="${tempCountry}"
+                                                   th:value="${tempCountry}"  th:selected="${studentWebUser.country==tempCountry?true:false}">
+
+                                           </option>
+                                       </select>
+                                   </div>
+                                   <div class="mb-3 col-md-6">
+                                       <label for="gender" class="form-label">Gender</label>
+                                       <div  id="gender">
+                                           <input class="form-check-input" type="radio" name="gender" id="male" th:value="Male">
+                                           <label class="form-check-label" for="male">
+                                               <i class="fa-solid fa-mars"></i> Male
+                                           </label>
+                                           <input class="form-check-input ms-3" type="radio" name="gender" id="female" th:value="Female">
+                                           <label class="form-check-label" for="female">
+                                               <i class="fa-solid fa-venus"></i> Female
+                                           </label>
+                                       </div>
+                                       <div class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="${studentWebUser.gender}">
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+
+               <div class="mb-1 form-check">
+                   <input type="checkbox" class="form-check-input" id="isAgreed" name="selected" th:classappend="${#fields.hasErrors('selected')?'is-invalid':''}">
+                   <label class="form-check-label" for="isAgreed">Please Accept <a href="">Trams and Conditions</a></label>
+                   <!--                   Handling form field errors-->
+                   <div class="invalid-feedback" th:if="${#fields.hasErrors('selected')}" th:errors="${studentWebUser.selected}">
+
+                   </div>
+               </div>
+               <button type="submit" class="btn btn-primary">Submit</button>
+           </form>
+       </div>
+    </div>
+
+<!--Adding Footer Part-->
+<div class="pt-4 mt-5" th:insert="footer-fragment::footer" style="background-color:#2F4F4F; color:white;"> </div>
+
+<!--        Adding Bootstrap Js file-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

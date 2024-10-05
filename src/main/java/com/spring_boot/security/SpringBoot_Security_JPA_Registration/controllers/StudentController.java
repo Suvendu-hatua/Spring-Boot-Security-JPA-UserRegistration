@@ -6,6 +6,7 @@ import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.Studen
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,37 +15,53 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/register")
-public class RegistrationController {
+public class StudentController {
+
+    @Value("${courseList}")
+    private List<String> courseList;
+
+    @Value("${countryList}")
+    private List<String> countryList;
+
     Logger logger=Logger.getLogger(getClass().getName());
     private UserService userService;
 
     @Autowired
-    public RegistrationController(UserService userService) {
+    public StudentController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/showRegistration")
-    public String showRegistrationForm(Model theModel){
+    public String showStudentRegistrationForm(Model theModel){
         //creating instance of studentWebUser to store new entry
         StudentWebUser studentWebUser =new StudentWebUser();
 //        Adding instance to model
         theModel.addAttribute("studentWebUser", studentWebUser);
-        return "registration/show-registration";
+        //Adding countryList and courseList to the Model
+        theModel.addAttribute("courseList",courseList);
+        theModel.addAttribute("countryList",countryList);
+
+        return "student/show-registration";
     }
 
     @PostMapping("/submit-registration")
-    public String submitRegistration(@Valid @ModelAttribute("studentWebUser") StudentWebUser studentWebUser,
+    public String submitStudentRegistration(@Valid @ModelAttribute("studentWebUser") StudentWebUser studentWebUser,
                                      BindingResult bindingResult, HttpSession session,Model theModel){
         String userName= studentWebUser.getUserName();
         logger.info("Processing Registration for:"+userName);
 
         if(bindingResult.hasErrors()){
             System.out.println(bindingResult);
-            return "registration/show-registration";
+
+            //Adding countryList and courseList to the Model
+            theModel.addAttribute("courseList",courseList);
+            theModel.addAttribute("countryList",countryList);
+            return "student/show-registration";
         }
         //Checking if the username is already exists in the DB or not.
         User user=userService.findUserByName(userName);
@@ -54,7 +71,7 @@ public class RegistrationController {
             theModel.addAttribute("message","username already exists. Choose a different username.");
             theModel.addAttribute("studentWebUser",new StudentWebUser());
             logger.warning("User name already exists.");
-            return "registration/show-registration";
+            return "student/show-registration";
         }
         //saving new entry in the database.
         userService.saveAsStudent(studentWebUser);
@@ -63,6 +80,6 @@ public class RegistrationController {
         //Placing user in http session for later use.
         session.setAttribute("user", studentWebUser);
 
-        return "registration/registration-confirmation";
+        return "student/registration-confirmation";
     }
 }
