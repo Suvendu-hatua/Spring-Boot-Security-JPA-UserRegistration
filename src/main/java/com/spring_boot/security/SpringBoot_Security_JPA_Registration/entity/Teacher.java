@@ -2,8 +2,6 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "teacher")
 public class Teacher {

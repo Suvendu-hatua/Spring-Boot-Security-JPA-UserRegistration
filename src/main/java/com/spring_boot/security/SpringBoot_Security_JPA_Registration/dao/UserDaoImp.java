@@ -33,11 +33,13 @@ public class UserDaoImp implements  UserDao{
 
     @Override
     @Transactional
-    public void save(User theUser) {
+    public User save(User theUser) {
+        User user=null;
         try{
-            entityManager.merge(theUser);
+            user=entityManager.merge(theUser);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+        return user;
     }
 }

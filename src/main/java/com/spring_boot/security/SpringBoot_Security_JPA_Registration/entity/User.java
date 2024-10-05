@@ -18,15 +18,6 @@ public class User {
     @Column(name = "password",nullable = false)
     private String password;
 
-    @Column(name = "firstname",nullable = false)
-    private String firstName;
-
-    @Column(name = "lastname")
-    private String lastName;
-
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "enabled")
     private boolean enabled;
 
@@ -38,6 +29,15 @@ public class User {
             inverseJoinColumns =@JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    //Adding One-to-one relationship with Student Table.
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Student student;
+
+    //Adding one-to-one Relationship with Teacher  Table.
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Teacher teacher;
+
 
     public Long getId() {
         return id;
@@ -63,29 +63,6 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public boolean isEnabled() {
         return enabled;
@@ -103,7 +80,8 @@ public class User {
         this.roles = roles;
     }
 
-    //toString() method----->
+
+//toString() method----->
 
     @Override
     public String toString() {
@@ -111,9 +89,6 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
                 ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
