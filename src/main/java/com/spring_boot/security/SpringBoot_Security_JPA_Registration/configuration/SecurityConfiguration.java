@@ -42,6 +42,8 @@ public class SecurityConfiguration {
                                 .permitAll()
                 )
                 .logout(logout->logout.permitAll()  //logout endpoint is enabled.
+                ).exceptionHandling(configurer->
+                        configurer.accessDeniedPage("/access-denied")
                 );
         return http.build();
     }
