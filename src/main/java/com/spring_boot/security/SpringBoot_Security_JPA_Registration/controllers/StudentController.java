@@ -78,7 +78,7 @@ public class StudentController {
         logger.info("Successfully created user: " + userName);
 
         //Placing user in http session for later use.
-        session.setAttribute("user", studentWebUser);
+        session.setAttribute("student", studentWebUser);
 
         return "student/registration-confirmation";
     }

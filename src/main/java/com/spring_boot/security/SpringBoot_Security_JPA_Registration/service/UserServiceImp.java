@@ -6,6 +6,7 @@ import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.Teacher
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.UserDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Role;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Student;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.StudentWebUser;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.TeacherWebUser;
@@ -84,7 +85,57 @@ public class UserServiceImp implements  UserService{
 
     @Override
     public void saveAsTeacher(TeacherWebUser teacherWebUser) {
+        //**************creating a user instance ---> will be stored in the DB. *******************
+        User user=new User();
+        user.setUsername(teacherWebUser.getUserName());
+        user.setPassword(passwordEncoder.encode(teacherWebUser.getPassword()));
+        //Setting user enabled column with TRUE manually.
+        user.setEnabled(true);
+        //Setting roles as ROLE_TEACHER (Default Role)
+        Set<Role> set=new HashSet<>();
+        set.add(roleDao.findRoleByName("ROLE_TEACHER"));
+        user.setRoles(set);
 
+        //saving user to database.
+        user=userDao.save(user);
+
+        //Set User to Student and Save the Teacher
+        Teacher teacher = getTeacher(teacherWebUser, user);
+
+        //saving it to DB.
+        teacherDao.saveTeacher(teacher);
+
+    }
+
+    @Override
+    public List<Teacher> findAllTeachers() {
+        return teacherDao.findAllTeachers();
+    }
+
+    @Override
+    public List<Student> findAllStudents() {
+        return studentDao.findAllStudents();
+    }
+
+    @Override
+    public Teacher findTeacherById(Integer id) {
+        return teacherDao.findById(id);
+    }
+
+    private Teacher getTeacher(TeacherWebUser teacherWebUser, User user) {
+
+        Teacher teacher=new Teacher();
+        teacher.setFirstName(teacherWebUser.getFirstName());
+        teacher.setLastName(teacherWebUser.getLastName());
+        teacher.setEmail(teacherWebUser.getEmail());
+        teacher.setMobileNumber(teacherWebUser.getMobileNo());
+        teacher.setAddress(teacherWebUser.getAddress());
+        teacher.setCountry(teacherWebUser.getCountry());
+        teacher.setDegree(teacherWebUser.getDegree());
+        teacher.setGender(teacherWebUser.getGender());
+        teacher.setReview(teacherWebUser.getReview());
+        teacher.setUser(user);
+        return teacher;
     }
 
 

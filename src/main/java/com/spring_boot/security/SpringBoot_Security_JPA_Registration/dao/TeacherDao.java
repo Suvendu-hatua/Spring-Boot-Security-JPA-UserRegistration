@@ -8,4 +8,6 @@ public interface TeacherDao {
 
     public List<Teacher> findAllTeachers();
     public Teacher saveTeacher(Teacher teacher);
+
+    public Teacher findById(Integer id);
 }

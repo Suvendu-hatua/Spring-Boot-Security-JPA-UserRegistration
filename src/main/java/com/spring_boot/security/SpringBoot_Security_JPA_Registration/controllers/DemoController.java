@@ -15,8 +15,4 @@ public class DemoController {
         return "meetings/security-awareness";
     }
 
-    @GetMapping("/systems/it-meeting")
-    public String itSystemMeeting(){
-        return "meetings/it-system";
-    }
 }

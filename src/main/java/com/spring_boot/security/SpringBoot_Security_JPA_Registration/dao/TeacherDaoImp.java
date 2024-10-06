@@ -35,11 +35,26 @@ public class TeacherDaoImp implements  TeacherDao{
     public Teacher saveTeacher(Teacher teacher) {
         Teacher tec=null;
         try{
+            System.out.println(teacher);
             tec=entityManager.merge(teacher);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
         return tec;
+    }
+
+    @Override
+    public Teacher findById(Integer id) {
+        Teacher teacher=null;
+        TypedQuery<Teacher>query=entityManager.createQuery("from Teacher where id=:teacherId",Teacher.class);
+        query.setParameter("teacherId",id);
+
+        try{
+            teacher=query.getSingleResult();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return teacher;
     }
 }
