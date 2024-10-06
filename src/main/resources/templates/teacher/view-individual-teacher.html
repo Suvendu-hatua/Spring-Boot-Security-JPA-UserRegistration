@@ -49,9 +49,10 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="modalForm" th:action="@{/teacher/add-review}" method="post">
+                                                <form id="modalForm" th:action="@{/teachers/add-review}" th:object="${review}" method="post">
+                                                    <input class="d-none" type="text" name="id" th:value="${teacher.id}">
                                                     <div class="mb-3">
-                                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write a review"></textarea>
+                                                        <textarea class="form-control" id="exampleFormControlTextarea1" name="message" rows="3" placeholder="Write a review"></textarea>
                                                     </div>
                                                 </form>
                                             </div>
