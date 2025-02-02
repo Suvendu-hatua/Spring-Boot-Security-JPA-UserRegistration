@@ -38,8 +38,8 @@ public class Teacher {
     @Column(name = "review")
     private String review;
 
-    @OneToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",nullable = false,referencedColumnName = "id")
     private User user;
 
     //setter and Getters

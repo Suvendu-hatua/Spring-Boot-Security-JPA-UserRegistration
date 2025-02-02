@@ -35,8 +35,8 @@ public class Student {
     @Column(name = "country")
     private String country;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false,referencedColumnName = "id")
     private User user;
 
     //Setter and Getters

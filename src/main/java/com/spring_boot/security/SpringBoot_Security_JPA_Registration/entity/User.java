@@ -30,15 +30,6 @@ public class User {
     )
     private Set<Role> roles;
 
-    //Adding One-to-one relationship with Student Table.
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    private Student student;
-
-    //Adding one-to-one Relationship with Teacher  Table.
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    private Teacher teacher;
-
-
     public Long getId() {
         return id;
     }
