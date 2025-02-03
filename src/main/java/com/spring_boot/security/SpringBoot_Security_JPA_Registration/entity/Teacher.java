@@ -1,9 +1,17 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Table(name = "teacher")
+@Setter
+@Getter
+@ToString
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,123 +39,12 @@ public class Teacher {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "degree")
-    private String degree;
-
-    @Lob // allows to store long text data.
-    @Column(name = "review")
-    private String review;
+    @Column(name = "qualification")
+    private String qualification;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",nullable = false,referencedColumnName = "id")
     private User user;
 
-    //setter and Getters
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    //toString()
-
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNumber='" + mobileNumber + '\'' +
-                ", gender='" + gender + '\'' +
-                ", address='" + address + '\'' +
-                ", country='" + country + '\'' +
-                ", degree='" + degree + '\'' +
-                ", review='" + review + '\'' +
-                ", user=" + user +
-                '}';
-    }
 }

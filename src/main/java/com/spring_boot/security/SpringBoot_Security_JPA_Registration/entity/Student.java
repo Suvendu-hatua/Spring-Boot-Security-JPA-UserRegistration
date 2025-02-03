@@ -1,33 +1,44 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.List;
 
 
 @Entity
 @Table(name = "student")
+@Setter
+@Getter
+@ToString
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "firstname",nullable = false)
-    private String firstName;
+    @Column(name = "student_firstname",nullable = false)
+    private String studentFirstName;
 
-    @Column(name = "lastname")
-    private String lastName;
+    @Column(name = "student_lastname")
+    private String studentLastName;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "guardian_name")
+    private  String guardianName;
+
+    @Column(name = "guadian_email",nullable = false)
+    private String guadianEmail;
 
     @Column(name = "mobile_no",length = 10)
     private String mobileNumber;
 
-    @Column(name = "gender")
-    private String gender;
+    @Column(name = "student_gender")
+    private String studentGender;
 
-    @Column(name = "course")
-    private String course;
+    @Column(name = "student_age")
+    private int studentAge;
 
     @Column(name = "address")
     private String address;
@@ -39,104 +50,12 @@ public class Student {
     @JoinColumn(name = "user_id", nullable = false,referencedColumnName = "id")
     private User user;
 
-    //Setter and Getters
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getCourse() {
-        return course;
-    }
-
-    public void setCourse(String course) {
-        this.course = course;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    //toString() method
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNumber='" + mobileNumber + '\'' +
-                ", gender='" + gender + '\'' +
-                ", course='" + course + '\'' +
-                ", address='" + address + '\'' +
-                ", country='" + country + '\'' +
-                ", user=" + user +
-                '}';
-    }
+    //Many-to-many relationship with courses.
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH})
+    @JoinTable(
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "student_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
 }
