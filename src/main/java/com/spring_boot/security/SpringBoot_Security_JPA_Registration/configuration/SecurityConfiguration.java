@@ -31,8 +31,14 @@ public class SecurityConfiguration {
                 configurer
                         .requestMatchers("/systems/**").hasRole("ADMIN")
                         .requestMatchers("/security-meeting").hasAnyRole("ADMIN","TEACHER","STUDENT")
-                        .requestMatchers("/css/**","/images/**").permitAll()
-                        .requestMatchers("/register/**").permitAll()
+                        .requestMatchers(
+                                "/css/**","/img/**","/lib/**","/js/**"
+                        ).permitAll()
+                        .requestMatchers("/register/**","/",
+                                "/about",
+                                "/classes",
+                                "/contact"
+                                ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formlogin->
