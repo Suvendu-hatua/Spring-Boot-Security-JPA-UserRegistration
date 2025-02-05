@@ -2,7 +2,7 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.StudentWebUser;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.Guardian;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +38,10 @@ public class StudentController {
 
     @GetMapping("/showRegistration")
     public String showStudentRegistrationForm(Model theModel){
-        //creating instance of studentWebUser to store new entry
-        StudentWebUser studentWebUser =new StudentWebUser();
+        //creating instance of Guardian to store new entry
+        Guardian guardian =new Guardian();
 //        Adding instance to model
-        theModel.addAttribute("studentWebUser", studentWebUser);
+        theModel.addAttribute("guardian", guardian);
         //Adding countryList and courseList to the Model
         theModel.addAttribute("courseList",courseList);
         theModel.addAttribute("countryList",countryList);
@@ -50,10 +50,12 @@ public class StudentController {
     }
 
     @PostMapping("/submit-registration")
-    public String submitStudentRegistration(@Valid @ModelAttribute("studentWebUser") StudentWebUser studentWebUser,
+    public String submitStudentRegistration(@Valid @ModelAttribute("guardian") Guardian guardian,
                                      BindingResult bindingResult, HttpSession session,Model theModel){
-        String userName= studentWebUser.getUserName();
+        String userName= guardian.getUserName();
         logger.info("Processing Registration for:"+userName);
+
+        System.out.println(guardian);
 
         if(bindingResult.hasErrors()){
             System.out.println(bindingResult);
@@ -69,17 +71,19 @@ public class StudentController {
             //Already same username exists in the database.
             theModel.addAttribute("registrationError",true);
             theModel.addAttribute("message","username already exists. Choose a different username.");
-            theModel.addAttribute("studentWebUser",new StudentWebUser());
+            theModel.addAttribute("guardian",new Guardian());
             logger.warning("User name already exists.");
             return "student/show-registration";
         }
         //saving new entry in the database.
-        userService.saveAsStudent(studentWebUser);
+        userService.saveAsStudent(guardian);
         logger.info("Successfully created user: " + userName);
 
         //Placing user in http session for later use.
-        session.setAttribute("student", studentWebUser);
+        session.setAttribute("student", guardian);
 
-        return "student/registration-confirmation";
+        //Adding an attribute of successful register
+        theModel.addAttribute("registrationSuccess",true);
+        return "custom-signing";
     }
 }
