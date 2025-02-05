@@ -1,9 +1,6 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity;
-
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,13 +10,15 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "student_firstname",nullable = false)
+    @Column(name = "student_firstname")
     private String studentFirstName;
 
     @Column(name = "student_lastname")
@@ -28,8 +27,8 @@ public class Student {
     @Column(name = "guardian_name")
     private  String guardianName;
 
-    @Column(name = "guadian_email",nullable = false)
-    private String guadianEmail;
+    @Column(name = "guardian_email",nullable = false)
+    private String guardianEmail;
 
     @Column(name = "mobile_no",length = 10)
     private String mobileNumber;
@@ -58,4 +57,5 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> courses;
+
 }
