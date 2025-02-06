@@ -45,6 +45,7 @@ public class SecurityConfiguration {
                         formlogin
                                 .loginPage("/show-login")
                                 .loginProcessingUrl("/authenticateTheUser")
+                                .defaultSuccessUrl("/dashboard")
                                 .permitAll()
                 )
                 .logout(logout->logout.permitAll()  //logout endpoint is enabled.
