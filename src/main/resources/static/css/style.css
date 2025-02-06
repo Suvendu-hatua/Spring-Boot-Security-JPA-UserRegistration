@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary: #FE5D37;
+    --primary: #33d4ff;
     --light: #FFF5F3;
     --dark: #103741;
 }
@@ -493,6 +493,9 @@ h6,
 .footer .copyright a:hover,
 .footer .footer-menu a:hover {
     color: var(--primary) !important;
+}
+.footer{
+    background-color: var(--dark);
 }
 
 .footer .footer-menu a:last-child {
