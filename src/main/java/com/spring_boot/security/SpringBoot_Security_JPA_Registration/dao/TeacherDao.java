@@ -1,13 +1,9 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao;
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface TeacherDao extends JpaRepository<Teacher, Long> {
 
-public interface TeacherDao {
-
-    public List<Teacher> findAllTeachers();
-    public Teacher saveTeacher(Teacher teacher);
-
-    public Teacher findById(Integer id);
+    Teacher findByUserUsername(String username);
 }
