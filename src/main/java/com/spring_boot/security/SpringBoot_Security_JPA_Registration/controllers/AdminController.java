@@ -2,10 +2,12 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.TeacherService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.TeacherWebUser;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/systems")
+@Slf4j
+@RequiredArgsConstructor
 public class AdminController {
 
     @Value("${degreeList}")
@@ -28,67 +31,62 @@ public class AdminController {
     @Value("${countryList}")
     private List<String> countryList;
 
-    Logger logger=Logger.getLogger(getClass().getName());
-    private UserService userService;
 
-    @Autowired
-    public AdminController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
+    private final TeacherService teacherService;
 
     @GetMapping("/add-teacher")
-    public String showTeacherRegistrationForm(Model theModel){
-        theModel.addAttribute("teacherWebUser",new TeacherWebUser());
-        theModel.addAttribute("degreeList",degreeList);
-        theModel.addAttribute("countryList",countryList);
+    public String showTeacherRegistrationForm(Model theModel) {
+        theModel.addAttribute("teacherWebUser", new TeacherWebUser());
+        theModel.addAttribute("degreeList", degreeList);
+        theModel.addAttribute("countryList", countryList);
         return "teacher/show-registration";
     }
 
     @PostMapping("/submit-registration")
     public String submitTeacherRegistration(@Valid @ModelAttribute("teacherWebUser") TeacherWebUser teacherWebUser,
-                                            BindingResult bindingResult, Model theModel){
-        String userName=teacherWebUser.getUserName();
-        logger.info("Processing registration for "+userName);
-        if(bindingResult.hasErrors()){
+                                            BindingResult bindingResult, Model theModel) {
+        String userName = teacherWebUser.getUserName();
+        log.info("Processing registration for ", userName);
+        if (bindingResult.hasErrors()) {
 //            System.out.println(bindingResult);
-            theModel.addAttribute("degreeList",degreeList);
-            theModel.addAttribute("countryList",countryList);
+            theModel.addAttribute("degreeList", degreeList);
+            theModel.addAttribute("countryList", countryList);
             return "teacher/show-registration";
         }
         //checking is the username is already exists in the DB or not
-        User user=userService.findUserByName(userName);
-        if(user!=null){
+        User user = userService.findUserByName(userName);
+        if (user != null) {
             //******************* already exists in the DB *********************
             //Adding error param.
-            theModel.addAttribute("registrationError",true);
+            theModel.addAttribute("registrationError", true);
             //return a fresh teacherWebUser...
-            theModel.addAttribute("teacherWebUser",new TeacherWebUser());
-            theModel.addAttribute("degreeList",degreeList);
-            theModel.addAttribute("countryList",countryList);
-            logger.warning("Username already exists in the Database.");
+            theModel.addAttribute("teacherWebUser", new TeacherWebUser());
+            theModel.addAttribute("degreeList", degreeList);
+            theModel.addAttribute("countryList", countryList);
+            log.warn("Username already exists in the Database.");
             return "teacher/show-registration";
         }
 
         //saving new entry in the database.
-        userService.saveAsTeacher(teacherWebUser);
-        logger.info("Successfully created user: " + userName);
+        teacherService.saveAsTeacher(teacherWebUser);
+        log.info("Successfully created user: ", userName);
 
         //Placing user in http session for later use.
-
         return "teacher/registration-confirmation";
     }
 
     @GetMapping("/teacher-list")
-    public String showAllTeachers(Model theModel){
+    public String showAllTeachers(Model theModel) {
         //Retrieving all the Teachers from Database.
-        List<Teacher> teacherList=userService.findAllTeachers();
+        List<Teacher> teacherList = teacherService.getAllTeachers();
         //adding the list to the model.
-        theModel.addAttribute("teacherList",teacherList);
+        theModel.addAttribute("teacherList", teacherList);
         return "teacher/teacher-list";
     }
 
     @GetMapping("/it-meeting")
-    public String itSystemMeeting(){
+    public String itSystemMeeting() {
         return "meetings/it-system";
     }
 }
