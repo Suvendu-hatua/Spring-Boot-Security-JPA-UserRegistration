@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Kider Complete Your Profile </title>
+    <title>Kider - Dashboard </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -70,8 +70,7 @@
         }
 
         .assigned-course,
-        .course-card,
-        .notice-card {
+        .course-card{
             border-radius: 15px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -103,7 +102,7 @@
                             class="fa-solid fa-gauge mx-2"></i><span class="fs-5">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item"><a class="nav-link fw-semibold  d-flex align-items-center" th:href="@{/static}">
+                <li class="nav-item"><a class="nav-link fw-semibold  d-flex align-items-center" th:href="@{/}">
                     <i class="fa-solid fa-house mx-2"></i><span class="fs-5">Home</span></a></li>
                 <li class="nav-item"><a class="nav-link fw-semibold  d-flex align-items-center" th:href="@{/about}"><i
                         class="fa-solid fa-school mx-2"></i><span class="fs-5">About Us</span></a></li>
@@ -151,7 +150,7 @@
             <div class="">
                 <div class="welcome-banner mb-4">
                     <div>
-                        <h2>Welcome back, John!</h2>
+                        <h2>Welcome back, <span th:text="${student.guardianName+' !'}"></span></h2>
                         <p>Always stay updated in your student portal</p>
                     </div>
                     <div>
@@ -179,19 +178,19 @@
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body text-dark">
-                                    <form id="modalForm" action="#" method="get">
+                                    <form id="modalForm" th:object="${child}" th:action="@{/updateAccount}" method="post">
                                         <div class="row">
                                             <div class="mb-3 col-6">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" name="password"
-                                                           id="firstName" placeholder="Firstname">
+                                                    <input type="text" class="form-control" name="firstName" id="firstName"
+                                                           placeholder="Firstname" th:value="*{firstName}">
                                                     <label for="firstName">FirstName</label>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-6">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" name="password"
-                                                           id="lastName" placeholder="Lastname">
+                                                    <input type="text" class="form-control" name="lastName"
+                                                           id="lastName" placeholder="Lastname" th:value="*{lastName}">
                                                     <label for="lastName">LastName</label>
                                                 </div>
                                             </div>
@@ -199,25 +198,22 @@
                                         <div class="row">
                                             <div class="mb-3 col-6">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" name="password"
-                                                           id="age" placeholder="Age">
+                                                    <input type="text" class="form-control" name="age"
+                                                           id="age" placeholder="Age" th:value="*{age}">
                                                     <label for="age">Age</label>
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-6">
-                                                <label class="form-lebel fw-semibold">Gender</label>
+                                                <label class="form-label fw-semibold">Gender</label>
                                                 <div class="form-floating">
-
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio"
-                                                               name="inlineRadioOptions" id="gender"
-                                                               value="Male">
+                                                               name="gender" id="gender"  th:field="*{gender}" value="Male">
                                                         <label class="form-check-label" for="gender">Male</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio"
-                                                               name="inlineRadioOptions" id="inlineRadio2"
-                                                               value="Female">
+                                                               name="gender" id="inlineRadio2" th:field="*{gender}" value="Female">
                                                         <label class="form-check-label"
                                                                for="inlineRadio2">Female</label>
                                                     </div>
@@ -248,27 +244,19 @@
                             <div class="row my-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Full Name</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        Suvendu Hatua
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.guardianName}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Email</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        suvenduhatua01@gmail.com
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.guardianEmail}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Phone</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        9865412485
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.mobileNumber}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Address</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        Samsara,Kalukhara ,India
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.address}"></div>
                                 </div>
 
                             </div>
@@ -276,27 +264,19 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Child First Name</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        Suvendu
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentFirstName}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Child Last Name</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        Hatua
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentLastName}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Child Age</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        suvenduhatua01@gmail.com
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentAge}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Child Gender</h6>
-                                    <div class="col-sm-9 text-secondary">
-                                        9865412485
-                                    </div>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentGender}"></div>
                                 </div>
 
                             </div>
