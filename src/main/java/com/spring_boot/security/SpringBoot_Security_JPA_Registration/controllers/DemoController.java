@@ -25,6 +25,26 @@ public class DemoController {
         return "contact";
     }
 
+    @GetMapping("/school-facility")
+    public String schoolFacilityPage(){
+        return "facility";
+    }
+
+    @GetMapping("/popular-teachers")
+    public String popularTeachersPage(){
+        return "team";
+    }
+
+    @GetMapping("/become-teacher")
+    public String becomeTeacherPage(){
+        return "call-to-action";
+    }
+
+@GetMapping("/testimonial")
+    public String testimonialPage(){
+        return "testimonial";
+    }
+
     @GetMapping("/security-meeting")
     public String securityAwarenessMeeting(){
         return "meetings/security-awareness";
