@@ -4,8 +4,6 @@ import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.Student
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.TeacherDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.UserDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Role;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Student;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,21 +45,6 @@ public class UserService implements UserDetailsService {
             authorities.add(tempAuthority);
         }
         return authorities;
-    }
-
-    public Object getUserDetailsByUsername(String username) {
-
-        //Getting Teacher details from user's username
-        Teacher teacher=teacherDao.findByUserUsername(username);
-        if(teacher!=null){
-            return teacher;
-        }
-        //Getting Student details from user's username
-        Student student=studentDao.findByUserUsername(username);
-        if(student!=null){
-            return student;
-        }
-        return null;
     }
 
 }
