@@ -37,7 +37,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/register/**","/",
                                 "/about",
                                 "/classes",
-                                "/contact"
+                                "/contact",
+                                "/school-facility",
+                                "/popular-teachers",
+                                "/become-teacher",
+                                "/testimonial",
+                                "/teacher-appointment"
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
