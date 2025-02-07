@@ -2,7 +2,6 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.TeacherService;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.TeacherReview;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/teachers")
 @Slf4j
 @RequiredArgsConstructor
 public class TeacherController {
 
-    private final UserService userService;
     private final TeacherService teacherService;
+
+    @GetMapping("/teacher-appointment")
+    public String bookAppointment(){
+        return "teacher/appointment";
+    }
 
     @GetMapping("/view")
     public String viewIndividualTeacher(@RequestParam("teacherId")Integer teacherID,Model theModel){

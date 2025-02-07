@@ -1,7 +1,6 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controllers;
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.StudentDao;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Student;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.StudentService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
@@ -86,16 +85,12 @@ public class StudentController {
     }
 
     @PostMapping("/updateAccount")
-    public String updateChildDetails(@ModelAttribute("child") Child child,Model model) {
+    public String updateChildDetails(@ModelAttribute("child") Child child) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //Updating Child details
         studentService.addChildDetails(child,auth.getName());
-        //getting updated student details
-        Student student=studentDao.findByUserUsername(auth.getName());
-        //Adding to model
-        model.addAttribute("student",student);
-        Child child1=new Child(student.getStudentFirstName(),student.getStudentLastName(),student.getStudentAge(),student.getStudentGender());
-        model.addAttribute("child",child1);
-        return "registration/complete-profile";
+        log.info("Successfully updated child: ", child);
+        return "redirect:/dashboard";
     }
 
 }

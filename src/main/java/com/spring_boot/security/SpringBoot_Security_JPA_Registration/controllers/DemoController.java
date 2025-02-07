@@ -37,7 +37,7 @@ public class DemoController {
 
     @GetMapping("/become-teacher")
     public String becomeTeacherPage(){
-        return "call-to-action";
+        return "teacher/become-teacher";
     }
 
 @GetMapping("/testimonial")
