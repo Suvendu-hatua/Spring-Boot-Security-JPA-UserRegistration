@@ -1,11 +1,13 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controllers;
 
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.StudentDao;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.TeacherDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Student;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.Child;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @RequiredArgsConstructor
 public class LoginController {
-    private final UserService userService;
+    private final StudentDao studentDao;
+    private final TeacherDao teacherDao;
 
     @GetMapping("/show-login")
     public String showLogin(){
@@ -27,19 +30,18 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //Extracting username
         String username = auth.getName();
-        log.info(username, auth.getAuthorities());
-        Object userDetails=userService.getUserDetailsByUsername(username);
-        log.info(userDetails.toString());
-        if(userDetails instanceof Student){
-            model.addAttribute("student",userDetails);
+        log.info("Username:{}, Authorities:{}", username, auth.getAuthorities());
+        //if the logged-in user is Student
+        if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STUDENT"))){
+            Student student=studentDao.findByUserUsername(username);
+            model.addAttribute("student",student);
             //creating new child instance from userDetails
-            Student student = (Student) userDetails;
             Child child=new Child(student.getStudentFirstName(),student.getStudentLastName(),student.getStudentAge(),student.getStudentGender());
             model.addAttribute("child",child);
             return "registration/complete-profile";
         }else{
             //instance of Teacher
-            model.addAttribute("teacher",userDetails);
+            model.addAttribute("teacher",null);
         }
         return "error";
     }
