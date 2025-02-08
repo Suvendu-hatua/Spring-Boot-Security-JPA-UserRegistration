@@ -7,7 +7,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Service
@@ -17,7 +19,7 @@ public class ApplicantService {
     private final ApplicantDao applicantDao;
 
     @Transactional
-    public void submitApplicant(ApplicantWebUser applicantWebUser) {
+    public void submitApplicant(ApplicantWebUser applicantWebUser) throws IOException {
         //creating an instance of Applicant entity
         Applicant applicant = new Applicant();
         //setting instance members
@@ -32,8 +34,11 @@ public class ApplicantService {
         applicant.setAppliedPosition(applicantWebUser.getApplyingFor());
         applicant.setAppliedDate(LocalDate.now());
         applicant.setStatus("ACTIVE");
-        applicant.setResume(applicantWebUser.getResume());
-
+        //handling with resume
+        MultipartFile file=applicantWebUser.getResume();
+        if(file!=null){
+            applicant.setResume(file.getBytes());
+        }
         //saving applicant into DB
         applicantDao.save(applicant);
     }
