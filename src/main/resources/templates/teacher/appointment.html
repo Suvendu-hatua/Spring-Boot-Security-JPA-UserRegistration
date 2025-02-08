@@ -79,7 +79,7 @@
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                 <div class="h-100 d-flex flex-column justify-content-center p-5">
                     <h1 class="mb-4">Submit Your Application</h1>
-                    <form th:action="@{/submit-job-application}" th:object="${applicant}" method="post">
+                    <form th:action="@{/submit-job-application}" th:object="${applicant}" method="post" enctype="multipart/form-data" >
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <div class="form-floating">
@@ -171,10 +171,13 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="">
+                                <div >
                                     <label class="fw-semibold mb-1" for="resume">Resume</label>
-                                    <input type="file" accept=".pdf,.docx" name="resume" class="form-control" id="resume"
-                                           placeholder="Resume">
+                                    <input type="file" accept="application/pdf" name="resume" class="form-control" id="resume"
+                                           placeholder="Resume" th:field="*{resume}"th:classappend="${#fields.hasErrors('resume')?'is-invalid':''}">
+                                    <!--                   Handling form field errors-->
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('resume')}"
+                                         th:errors="${applicant.resume}"></div>
                                 </div>
                             </div>
                             <div class="col-12">
