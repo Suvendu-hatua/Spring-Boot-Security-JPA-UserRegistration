@@ -6,6 +6,7 @@ import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.UserDao
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Role;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
     private final UserDao userDao;
     private final TeacherDao teacherDao;
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user=userDao.findByUsername(username);
+        log.info(user.toString());
         //if user does not exist in the database.
         if(user==null){
             throw new UsernameNotFoundException("Invalid UserName or Password!");

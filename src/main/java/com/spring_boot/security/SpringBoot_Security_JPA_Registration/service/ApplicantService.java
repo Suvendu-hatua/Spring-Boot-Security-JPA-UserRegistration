@@ -42,4 +42,8 @@ public class ApplicantService {
         //saving applicant into DB
         applicantDao.save(applicant);
     }
+
+    public Applicant findApplicantById(long id) {
+        return applicantDao.findById(id).orElse(null);
+    }
 }
