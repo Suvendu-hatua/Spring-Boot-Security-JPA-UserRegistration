@@ -25,7 +25,11 @@ public class Applicant {
     private String appliedPosition;
     private LocalDate appliedDate;
     private String gender;
-    private String resume;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] resume;  // Storing file as byte array in DB
+
     private String message;
     private String status;
 }
