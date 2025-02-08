@@ -2,6 +2,7 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.TeacherService;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.ApplicantWebUser;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.TeacherReview;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,10 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @GetMapping("/teacher-appointment")
-    public String bookAppointment(){
+    public String bookAppointment(Model model) {
+        //Adding Applicant instance
+        model.addAttribute("applicant", new ApplicantWebUser());
+        model.addAttribute("status", false);
         return "teacher/appointment";
     }
 

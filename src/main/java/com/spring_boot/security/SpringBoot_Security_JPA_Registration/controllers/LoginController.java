@@ -38,7 +38,7 @@ public class LoginController {
             //creating new child instance from userDetails
             Child child=new Child(student.getStudentFirstName(),student.getStudentLastName(),student.getStudentAge(),student.getStudentGender());
             model.addAttribute("child",child);
-            return "registration/complete-profile";
+            return "student/complete-profile";
         }else{
             //instance of Teacher
             model.addAttribute("teacher",null);
