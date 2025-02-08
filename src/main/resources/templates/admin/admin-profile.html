@@ -229,75 +229,12 @@
                                     <p class="mb-1"><i class="fa-solid fa-envelope mx-2 text-info"></i> <span th:text="${applicant.email}"></span></p>
                                     <p class="mb-1"><i class="fa-solid fa-phone-volume mx-2 text-info"></i> <span th:text="${applicant.phone}"></span></p>
                                 </div>
-                                <a href="#" class="card-link">View Resume</a>
+                                <a th:href="@{/resume/{id}(id=${applicant.id})}" target="_blank" class="card-link">View Resume</a>
                                 <a href="#" class="card-link">Another link</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="card h-100 job-card border-0">
-                            <div class="card-body">
-                                <h5 class="card-title text-info">Application of Suvendu Hatua</h5>
-                                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="mx-2">Position:</span>English Teacher</h6>
-                                <div>
-                                    <p class="mb-1"><span class="fw-semibold text-info mx-2">Qualification:</span> B.A in English  </p>
-                                    <p class="mb-1"><i class="fa-solid fa-location-dot mx-2 text-info"></i>Kharagpur, West Bengal </p>
-                                    <p class="mb-1"><i class="fa-solid fa-envelope mx-2 text-info"></i> suvenduhatua01@gmail.com</p>
-                                    <p class="mb-1"><i class="fa-solid fa-phone-volume mx-2 text-info"></i> 8918382864</p>
-                                </div>
-                                <a href="#" class="card-link">View Resume</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 job-card border-0">
-                            <div class="card-body">
-                                <h5 class="card-title text-info">Application of Suvendu Hatua</h5>
-                                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="mx-2">Position:</span>English Teacher</h6>
-                                <div>
-                                    <p class="mb-1"><span class="fw-semibold text-info mx-2">Qualification:</span> B.A in English  </p>
-                                    <p class="mb-1"><i class="fa-solid fa-location-dot mx-2 text-info"></i>Kharagpur, West Bengal </p>
-                                    <p class="mb-1"><i class="fa-solid fa-envelope mx-2 text-info"></i> suvenduhatua01@gmail.com</p>
-                                    <p class="mb-1"><i class="fa-solid fa-phone-volume mx-2 text-info"></i> 8918382864</p>
-                                </div>
-                                <a href="#" class="card-link">View Resume</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 job-card border-0">
-                            <div class="card-body">
-                                <h5 class="card-title text-info">Application of Suvendu Hatua</h5>
-                                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="mx-2">Position:</span>English Teacher</h6>
-                                <div>
-                                    <p class="mb-1"><span class="fw-semibold text-info mx-2">Qualification:</span> B.A in English  </p>
-                                    <p class="mb-1"><i class="fa-solid fa-location-dot mx-2 text-info"></i>Kharagpur, West Bengal </p>
-                                    <p class="mb-1"><i class="fa-solid fa-envelope mx-2 text-info"></i> suvenduhatua01@gmail.com</p>
-                                    <p class="mb-1"><i class="fa-solid fa-phone-volume mx-2 text-info"></i> 8918382864</p>
-                                </div>
-                                <a href="#" class="card-link">View Resume</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 job-card border-0">
-                            <div class="card-body">
-                                <h5 class="card-title text-info">Application of Suvendu Hatua</h5>
-                                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="mx-2">Position:</span>English Teacher</h6>
-                                <div>
-                                    <p class="mb-1"><span class="fw-semibold text-info mx-2">Qualification:</span> B.A in English  </p>
-                                    <p class="mb-1"><i class="fa-solid fa-location-dot mx-2 text-info"></i>Kharagpur, West Bengal </p>
-                                    <p class="mb-1"><i class="fa-solid fa-envelope mx-2 text-info"></i> suvenduhatua01@gmail.com</p>
-                                    <p class="mb-1"><i class="fa-solid fa-phone-volume mx-2 text-info"></i> 8918382864</p>
-                                </div>
-                                <a href="#" class="card-link">View Resume</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </main>
