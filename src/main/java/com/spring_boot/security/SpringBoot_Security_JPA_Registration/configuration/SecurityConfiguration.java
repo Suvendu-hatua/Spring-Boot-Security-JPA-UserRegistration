@@ -29,10 +29,11 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests(configurer->
                 configurer
-                        .requestMatchers("/systems/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/resume/**").hasRole("ADMIN")
                         .requestMatchers("/security-meeting").hasAnyRole("ADMIN","TEACHER","STUDENT")
                         .requestMatchers(
-                                "/css/**","/img/**","/lib/**","/js/**"
+                                "/css/**","/img/**","/lib/**","/js/**","/admin/img/**"
                         ).permitAll()
                         .requestMatchers("/register/**","/",
                                 "/about",
