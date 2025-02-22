@@ -44,6 +44,13 @@ public class ApplicantService {
     }
 
     public Applicant findApplicantById(long id) {
-        return applicantDao.findById(id).orElse(null);
+        return applicantDao.findById(id).orElseThrow(()->new RuntimeException("Applicant Not Found"));
+    }
+
+    @Transactional
+    public void changeApplicantStatus(Applicant applicant, String status)  {
+        applicant.setStatus(status);
+        //saving latest changes
+        applicantDao.save(applicant);
     }
 }

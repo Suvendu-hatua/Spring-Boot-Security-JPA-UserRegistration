@@ -1,92 +1,93 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controllers;
 
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Teacher;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
+
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.ApplicantDao;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Applicant;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.ApplicantService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.TeacherService;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.TeacherWebUser;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/systems")
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class AdminController {
 
-    @Value("${degreeList}")
-    private List<String> degreeList;
-
-    @Value("${countryList}")
-    private List<String> countryList;
-
-
-    private final UserService userService;
+    private final ApplicantService applicantService;
     private final TeacherService teacherService;
+    private final ApplicantDao applicantDao;
 
-    @GetMapping("/add-teacher")
-    public String showTeacherRegistrationForm(Model theModel) {
-        theModel.addAttribute("teacherWebUser", new TeacherWebUser());
-        theModel.addAttribute("degreeList", degreeList);
-        theModel.addAttribute("countryList", countryList);
-        return "teacher/show-registration";
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        return "admin/admin-profile";
     }
 
-    @PostMapping("/submit-registration")
-    public String submitTeacherRegistration(@Valid @ModelAttribute("teacherWebUser") TeacherWebUser teacherWebUser,
-                                            BindingResult bindingResult, Model theModel) {
-        String userName = teacherWebUser.getUserName();
-        log.info("Processing registration for ", userName);
-        if (bindingResult.hasErrors()) {
-//            System.out.println(bindingResult);
-            theModel.addAttribute("degreeList", degreeList);
-            theModel.addAttribute("countryList", countryList);
-            return "teacher/show-registration";
+    @GetMapping("/dashboard/job-applications")
+    public String jobApplications(Model model,
+                                  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+        //Getting all the Job Applicant list
+        List<Applicant> applicants = applicantDao.findByStatus("ACTIVE");
+        //  If it's an AJAX request, return only the fragment
+        if ("XMLHttpRequest".equals(requestedWith)) {
+            model.addAttribute("activeApplicants", true);
+            model.addAttribute("applicants", applicants);
+            return "admin/job-applicantions :: job-applicants";
         }
-        //checking is the username is already exists in the DB or not
-        User user = userService.findUserByName(userName);
-        if (user != null) {
-            //******************* already exists in the DB *********************
-            //Adding error param.
-            theModel.addAttribute("registrationError", true);
-            //return a fresh teacherWebUser...
-            theModel.addAttribute("teacherWebUser", new TeacherWebUser());
-            theModel.addAttribute("degreeList", degreeList);
-            theModel.addAttribute("countryList", countryList);
-            log.warn("Username already exists in the Database.");
-            return "teacher/show-registration";
-        }
-
-        //saving new entry in the database.
-        teacherService.saveAsTeacher(teacherWebUser);
-        log.info("Successfully created user: ", userName);
-
-        //Placing user in http session for later use.
-        return "teacher/registration-confirmation";
+//        If it's a normal page request, return the full dashboard page
+        return "admin/admin-profile";
     }
 
-    @GetMapping("/teacher-list")
-    public String showAllTeachers(Model theModel) {
-        //Retrieving all the Teachers from Database.
-        List<Teacher> teacherList = teacherService.getAllTeachers();
-        //adding the list to the model.
-        theModel.addAttribute("teacherList", teacherList);
-        return "teacher/teacher-list";
+    @GetMapping("/active-applicants")
+    public String showActiveApplicants(Model model) {
+        List<Applicant> activeApplicants = applicantDao.findByStatus("ACTIVE");
+        model.addAttribute("activeApplicants", true);
+        model.addAttribute("applicants", activeApplicants);
+        return "admin/job-applicantions :: job-applicants";
     }
 
-    @GetMapping("/it-meeting")
-    public String itSystemMeeting() {
-        return "meetings/it-system";
+    @GetMapping("/selected-applicants")
+    public String showSelectedApplicants(Model model) {
+        List<Applicant> selectedApplicants = applicantDao.findByStatus("SELECTED");
+        model.addAttribute("selectedApplicants", true);
+        model.addAttribute("applicants", selectedApplicants);
+        return "admin/job-applicantions :: job-applicants";
     }
+
+    @GetMapping("/rejected-applicants")
+    public String showRejectedApplicants(Model model) {
+        List<Applicant> rejectedApplicants = applicantDao.findByStatus("REJECTED");
+        model.addAttribute("rejectedApplicants", true);
+        model.addAttribute("applicants", rejectedApplicants);
+        return "admin/job-applicantions :: job-applicants";
+    }
+
+    @GetMapping("/select/{id}")
+    public String selectApplicantProfile(@PathVariable("id") long id) {
+        Applicant applicant = applicantService.findApplicantById(id);
+        //Saving applicant as Teacher
+        teacherService.saveAsTeacher(applicant);
+        //Update applicant status
+        applicantService.changeApplicantStatus(applicant, "SELECTED");
+        log.info("Successfully saved as Teacher");
+        return "redirect:/dashboard";
+    }
+
+    @GetMapping("/reject/{id}")
+    public String rejectApplicantProfile(@PathVariable("id") long id) {
+        Applicant applicant = applicantService.findApplicantById(id);
+        //Update applicant status
+        applicantService.changeApplicantStatus(applicant, "REJECTED");
+        log.info("Rejected Applicant");
+        return "redirect:/dashboard";
+    }
+
 }

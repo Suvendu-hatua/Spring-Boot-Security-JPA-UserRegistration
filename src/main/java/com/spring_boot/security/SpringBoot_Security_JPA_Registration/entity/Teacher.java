@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Entity
 @Table(name = "teacher")
 @Setter
@@ -42,9 +40,24 @@ public class Teacher {
     @Column(name = "qualification")
     private String qualification;
 
+    private String position;
+
+    private String status;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",nullable = false,referencedColumnName = "id")
     private User user;
+
+  public void setTeacher(Applicant applicant) {
+      this.firstName = applicant.getFirstName();
+      this.lastName = applicant.getLastName();
+      this.email = applicant.getEmail();
+      this.mobileNumber=applicant.getPhone();
+      this.gender = applicant.getGender();
+      this.address = applicant.getAddress();
+      this.qualification = applicant.getQualification();
+      this.position=applicant.getAppliedPosition();
+  }
 
 
 }
