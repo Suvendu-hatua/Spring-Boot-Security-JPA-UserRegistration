@@ -54,7 +54,7 @@
             border-radius: 10px;
         }
 
-        .dashboard {
+        .active {
             background-color: rgba(13, 74, 80, 0.2);
             border-radius: 10px;
         }
@@ -102,7 +102,7 @@
         <nav class="col-md-3 col-lg-2 d-md-block sidebar  p-3">
             <ul class="nav flex-column my-3">
                 <li class="nav-item dashboard">
-                    <a class="nav-link fw-semibold  d-flex align-items-center" href="#" id="dashboard-btn"><i
+                    <a class="nav-link active fw-semibold  d-flex align-items-center" href="#" id="dashboard-btn"><i
                             class="fa-solid fa-gauge mx-2"></i><span class="fs-5">Dashboard</span>
                     </a>
                 </li>
@@ -120,7 +120,7 @@
                     </a>
                     <div class="collapse ps-3" id="coursesCollapse">
                         <ul class="nav flex-column fw-semibold">
-                            <li class="nav-item"><a class="nav-link " href="#" id="job-application-btn">Job
+                            <li class="nav-item"><a class="nav-link " href="#job-applications" id="job-application-btn">Job
                                 Applications</a></li>
                             <li class="nav-item"><a class="nav-link " href="" id="view-teachers-btn">View Teachers</a>
                             </li>
@@ -171,7 +171,8 @@
                 <div class="row mb-4">
                     <div class="col">
                         <div class="course-card">
-                            <h3 class="mb-3 text-info"><i class="fa-solid fa-circle-info fa-lg mx-2"></i>Personal Information
+                            <h3 class="mb-3 text-info"><i class="fa-solid fa-circle-info fa-lg mx-2"></i>Personal
+                                Information
                             </h3>
                             <div class="row my-3">
                                 <div class="col-sm-3">
@@ -215,28 +216,8 @@
             </div>
 
             <!--            Job Applications Section             -->
-            <div id="job-application" class="job-section ">
-                <h4 class="mb-3">Job Applications</h4>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col" th:each="applicant:${applicants}">
-                        <div th:if="${applicant.status == 'ACTIVE'}" class="card h-100 job-card border-0">
-                            <div class="card-body">
-                                <h5 class="card-title text-info">Application of <span th:text="${applicant.firstName+' '+applicant.lastName}"></span></h5>
-                                <h6 class="card-subtitle mb-2 text-body-secondary"><span class="mx-2">Position:</span> <span th:text="${applicant.appliedPosition}"></span> </h6>
-                                <div>
-                                    <p class="mb-1"><span class="fw-semibold text-info mx-2">Qualification:</span> <span th:text="${applicant.qualification}"></span>  </p>
-                                    <p class="mb-1"><i class="fa-solid fa-location-dot mx-2 text-info"></i> <span th:text="${applicant.address}"></span></p>
-                                    <p class="mb-1"><i class="fa-solid fa-envelope mx-2 text-info"></i> <span th:text="${applicant.email}"></span></p>
-                                    <p class="mb-1"><i class="fa-solid fa-phone-volume mx-2 text-info"></i> <span th:text="${applicant.phone}"></span></p>
-                                </div>
-                                <a th:href="@{/resume/{id}(id=${applicant.id})}" target="_blank" class="card-link">View Resume</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
+            <div id="job-application" class="job-section" th:insert="~{admin/job-applicantions::job-applicants}"></div>
 
-                </div>
-            </div>
         </main>
     </div>
 </div>
@@ -256,14 +237,71 @@
 <script th:src="@{/js/main.js}"></script>
 <!--Adding custom Script            -->
 <script>
-    document.getElementById("job-application-btn").addEventListener("click", function () {
-        document.getElementById("default-content").style.display = "none";
-        document.getElementById("job-application").style.display = "block";
-    })
+    document.getElementById("job-application-btn").addEventListener("click", function (event) {
+        // Remove "active" class from all links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.getElementById("job-application-btn").classList.add("active")
+        event.preventDefault(); // Prevent default page reload
+        fetch("/admin/dashboard/job-applications", {
+            headers: {"X-Requested-With": "XMLHttpRequest"} // ✅ Mark as AJAX request
+        }) // Call the controller
+            .then(response => response.text()) // Get response as HTML
+            .then(html => {
+                document.getElementById("default-content").style.display = "none";
+                console.log(html);
+                document.getElementById("job-application").innerHTML = html; // Inject fragment content
+                document.getElementById("job-application").style.display = "block"; // Show result section
+            })
+            .catch(error => console.error("Error fetching results:", error));
+    });
 
-    document.getElementById("dashboard-btn").addEventListener("click", function () {
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ JavaScript Loaded");
+
+        // Function to fetch job applicants based on filter type
+        function fetchData(url) {
+            console.log(`🔄 Fetching data from: ${url}`);
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`❌ Network response was not ok (${response.status})`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    console.log("✅ Data received successfully.");
+                    document.getElementById("default-content").style.display = "none";
+                    document.getElementById("job-application").innerHTML = html;
+                    document.getElementById("job-application").style.display = "block";
+                    // history.pushState(null, "", "dashboard/job-applications");
+                })
+                .catch(error => console.error("🚨 Error fetching results:", error));
+        }
+
+        // ✅ Event Delegation: Attach event listener to a static parent element
+        document.body.addEventListener("click", function (event) {
+            if (event.target.classList.contains("filter-btn")) {
+                event.preventDefault();
+                let filterType = event.target.getAttribute("data-filter"); // Get filter type
+                console.log(`🟢 ${filterType.toUpperCase()} button clicked`);
+                fetchData(`/admin/${filterType}-applicants`);
+            }
+        });
+    });
+
+    // ✅ Handle back button (restore the dashboard view when navigating back)
+    window.onpopstate = function () {
+        location.reload(); // Reload page when user presses Back button
+    };
+
+    document.getElementById("dashboard-btn").addEventListener("click", function (event) {
         document.getElementById("default-content").style.display = "block";
-        document.getElementById("job-application").style.display = "none";
+        // document.getElementById("job-application").style.display = "none";
+        event.preventDefault();
+        window.location.href = "/admin/dashboard";
     })
 </script>
 </body>

@@ -29,6 +29,14 @@
 
     <!-- Template Stylesheet -->
     <link th:href="@{/css/style.css}" rel="stylesheet">
+    <style>
+        .sign-in{
+            border-radius: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            background: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -46,7 +54,7 @@
     <!-- Spinner End -->
     <div class="container py-5">
         <!--    <hr>-->
-        <div class="card mx-auto w-50 border border-2 border-info mt-2 rounded-2">
+        <div class="card mx-auto w-50 border-0 mt-2 rounded-2 sign-in">
             <div class="card-header bg-info fw-bold text-white">
                 <h1><i class="fa fa-book-reader me-3"></i>Sign-in</h1>
             </div>
@@ -89,8 +97,8 @@
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-success w-25 me-auto rounded-pill">Sign In</button>
                         <div>
-                            <a class="d-block" th:href="@{/register/showRegistration}">
-                                Don't have account?
+                            <a class="d-block text-danger" th:href="@{/register/showRegistration}">
+                                Forgot password?
                             </a>
                             <a class="text-decoration-none d-block text-primary fw-semibold"
                                th:href="@{/register/showRegistration}">Create Account</a>
