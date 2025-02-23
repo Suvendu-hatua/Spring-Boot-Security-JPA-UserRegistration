@@ -241,20 +241,22 @@
                             </h3>
                             <div class="row my-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Full Name</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${teacher.firstName+ ' '+teacher.lastName}"></div>
+                                    <h6 class="mb-0 text-info"> <i class="fa-solid fa-address-card"></i> Full Name</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${teacher.firstName+ ' '+teacher.lastName}">  </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Email</h6>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-envelope-circle-check"></i> Email</h6>
                                     <div class="col-sm-9 text-secondary" th:text="${teacher.email}"></div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Phone</h6>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-phone-volume"></i> Phone</h6>
                                     <div class="col-sm-9 text-secondary" th:text="${teacher.mobileNumber}"></div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Address</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${teacher.address+', '+teacher.country}"></div>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-location-dot"></i> Address</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${teacher.address}">
+                                        <span th:if="${teacher.country!=null}" th:text="${', '+teacher.country}"></span>
+                                    </div>
                                 </div>
 
                             </div>
