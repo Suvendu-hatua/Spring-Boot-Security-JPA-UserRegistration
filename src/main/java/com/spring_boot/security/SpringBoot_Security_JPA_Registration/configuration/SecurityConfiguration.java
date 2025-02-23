@@ -44,7 +44,9 @@ public class SecurityConfiguration {
                                 "/become-teacher",
                                 "/testimonial",
                                 "/teacher-appointment",
-                                "/submit-job-application"
+                                "/submit-job-application",
+                                "/reset-password",
+                                "/reset-user-password"
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
