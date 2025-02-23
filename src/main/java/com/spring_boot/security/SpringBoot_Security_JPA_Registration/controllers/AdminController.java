@@ -3,7 +3,9 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.ApplicantDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Applicant;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Notice;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.ApplicantService;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.NoticeService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,13 @@ public class AdminController {
     private final ApplicantService applicantService;
     private final TeacherService teacherService;
     private final ApplicantDao applicantDao;
+    private final NoticeService noticeService;
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
+        //getting all the notices
+        List<Notice> notices=noticeService.getAllNotices();
+        model.addAttribute("notices", notices);
         return "admin/admin-profile";
     }
 
