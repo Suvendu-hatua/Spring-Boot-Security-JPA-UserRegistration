@@ -1,6 +1,7 @@
 package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controllers;
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.StudentDao;
+import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Student;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.StudentService;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
@@ -36,6 +37,19 @@ public class StudentController {
     private final StudentService studentService;
     private final UserService userService;
     private final StudentDao studentDao;
+
+    @GetMapping("/guardian/dashboard")
+    public String dashboard(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //Extracting username
+        String username = auth.getName();
+        Student student = studentDao.findByUserUsername(username);
+        model.addAttribute("student", student);
+        //creating new child instance from userDetails
+        Child child = new Child(student.getStudentFirstName(), student.getStudentLastName(), student.getStudentAge(), student.getStudentGender());
+        model.addAttribute("child", child);
+        return "student/complete-profile";
+    }
 
     @GetMapping("/register/showRegistration")
     public String showStudentRegistrationForm(Model theModel) {
