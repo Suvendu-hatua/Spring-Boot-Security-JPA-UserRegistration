@@ -2,10 +2,8 @@ package com.spring_boot.security.SpringBoot_Security_JPA_Registration.controller
 
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.StudentDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.UserDao;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Student;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.service.UserService;
-import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.Child;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.user.ResetPassword;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -76,12 +74,7 @@ public class LoginController {
         log.info("Username:{}, Authorities:{}", username, auth.getAuthorities());
         //if the logged-in user is Student
         if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
-            Student student = studentDao.findByUserUsername(username);
-            model.addAttribute("student", student);
-            //creating new child instance from userDetails
-            Child child = new Child(student.getStudentFirstName(), student.getStudentLastName(), student.getStudentAge(), student.getStudentGender());
-            model.addAttribute("child", child);
-            return "student/complete-profile";
+            return "redirect:/guardian/dashboard";
         } else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TEACHER"))) {
             //instance of Teacher
             model.addAttribute("teacher", null);
