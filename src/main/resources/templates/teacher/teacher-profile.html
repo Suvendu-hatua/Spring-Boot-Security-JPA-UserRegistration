@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Teacher - Dashboard </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link th:href="@{/img/favicon.ico}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@600&family=Lobster+Two:wght@700&display=swap"
+          rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link th:href="@{/lib/animate/animate.min.css}" rel="stylesheet">
+    <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!--    font awesome toolkit-->
+    <script src="https://kit.fontawesome.com/f2c9afeedf.js" crossorigin="anonymous"></script>
+    <style>
+        .sidebar {
+            height: 150vh;
+            background: linear-gradient(180deg, #64d5e9, #5dedeb);
+            color: white;
+            padding-top: 20px;
+            border-radius: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            font-weight: 500;
+        }
+
+        .fa-user {
+            font-size: 3.5em;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: rgba(13, 74, 80, 0.2);
+            border-radius: 10px;
+        }
+
+        .dashboard {
+            background-color: rgba(13, 74, 80, 0.2);
+            border-radius: 10px;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(180deg, #64d5e9, #5dedeb);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .assigned-course,
+        .course-card{
+            border-radius: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background: white;
+        }
+        .modal-content{
+            background-color: #f1f5f5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <!-- Spinner Start -->
+    <div id="spinner"
+         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!--     Spinner End -->
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar  p-3">
+            <ul class="nav flex-column my-3">
+                <li class="nav-item dashboard">
+                    <a class="nav-link fw-semibold  d-flex align-items-center" href="#"><i
+                            class="fa-solid fa-gauge mx-2"></i><span class="fs-5">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link fw-semibold  d-flex align-items-center" th:href="@{/}">
+                    <i class="fa-solid fa-house mx-2"></i><span class="fs-5">Home</span></a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold  d-flex align-items-center" th:href="@{/about}"><i
+                        class="fa-solid fa-school mx-2"></i><span class="fs-5">About Us</span></a></li>
+                <li class="nav-item"><a class="nav-link  fw-semibold d-flex align-items-center" th:href="@{/classes}"><i
+                        class="fa-brands fa-discourse mx-2"></i><span class="fs-5">Classes</span></a></li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold d-flex align-items-center" href="#coursesCollapse"
+                       data-bs-toggle="collapse" role="button" aria-expanded="false"
+                       aria-controls="coursesCollapse">
+                        <i class="fa-solid fa-file mx-2"></i> <span class="fs-5">Pages</span>
+                    </a>
+                    <div class="collapse ps-3" id="coursesCollapse">
+                        <ul class="nav flex-column fw-semibold">
+                            <li class="nav-item"><a class="nav-link " th:href="@{/school-facility}" >School Facilities</a></li>
+                            <li class="nav-item"><a class="nav-link " th:href="@{/popular-teachers}">Propular Teacher</a></li>
+                            <li class="nav-item"><a class="nav-link " th:href="@{/become-teacher}" >Become a Teacher</a></li>
+                            <li class="nav-item"><a class="nav-link " th:href="@{/testimonial}">Testimonial</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link fw-semibold d-flex align-items-center" th:href="@{/contact}">
+                    <i class="fa-solid fa-phone-volume mx-2"></i><span class="fs-5">Contact Us</span></a></li>
+            </ul>
+            <hr class="my-3 border border-2 border-white">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold d-flex align-items-center" href="#">
+                        <i class="fa-solid fa-gear mx-2"></i> <span class="fs-5">Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button class="nav-link fw-semibold d-flex align-items-center w-100" type="submit">
+                            <i class="fa-solid fa-right-from-bracket mx-2"></i> <span class="fs-5">Logout</span>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto bg-light col-lg-10 px-md-4 py-4">
+
+            <div class="">
+                <div class="welcome-banner mb-4">
+                    <div>
+                        <h2>Welcome back, <span th:text="${student.guardianName+' !'}"></span></h2>
+                        <p>Always stay updated in your student portal</p>
+                    </div>
+                    <div>
+                        <div class="text-center mb-2">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <p>
+                            <a class="text-white fw-bold text-decoration-none" href="" data-bs-toggle="modal"
+                               data-bs-target="#exampleModal">
+                                <i class="fa-solid fa-pen-to-square mx-2"></i>
+                                Update Profile
+                            </a>
+                        </p>
+                    </div>
+                    <!-- modal  -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5 text-primary" id="exampleModalLabel">
+                                        <i class="fa-solid fa-child-reaching mx-2"></i>Update Child Details
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-dark">
+                                    <form id="modalForm" th:object="${child}" th:action="@{/updateAccount}" method="post">
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" name="firstName" id="firstName"
+                                                           placeholder="Firstname" th:value="*{firstName}">
+                                                    <label for="firstName">FirstName</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" name="lastName"
+                                                           id="lastName" placeholder="Lastname" th:value="*{lastName}">
+                                                    <label for="lastName">LastName</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" name="age"
+                                                           id="age" placeholder="Age" th:value="*{age}">
+                                                    <label for="age">Age</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                                <label class="form-label fw-semibold">Gender</label>
+                                                <div class="form-floating">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="gender" id="gender"  th:field="*{gender}" value="Male">
+                                                        <label class="form-check-label" for="gender">Male</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="gender" id="inlineRadio2" th:field="*{gender}" value="Female">
+                                                        <label class="form-check-label"
+                                                               for="inlineRadio2">Female</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" form="modalForm">Save
+                                        Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="course-card">
+                            <h3 class="mb-3 text-info"><i class="fa-solid fa-circle-info fa-lg mx-2"></i>Personal Information
+                            </h3>
+                            <div class="row my-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Full Name</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.guardianName}"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Email</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.guardianEmail}"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Phone</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.mobileNumber}"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Address</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.address}"></div>
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Child First Name</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentFirstName}"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Child Last Name</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentLastName}"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Child Age</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentAge}"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 text-info">Child Gender</h6>
+                                    <div class="col-sm-9 text-secondary" th:text="${student.studentGender}"></div>
+                                </div>
+
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row gutters-sm">
+
+                    <div class="mb-3 ">
+                        <div class="card h-100 assigned-course">
+                            <div class="card-body">
+                                <h5 class="d-flex align-items-center mb-3"><i
+                                        class="material-icons mr-2 me-2 text-info">Assigned</i>Course Status</h5>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card text-white bg-primary mb-3">
+                                            <div class="card-header">Total Courses</div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">5</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card text-white bg-success mb-3">
+                                            <div class="card-header">GPA</div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">3.8</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card text-white bg-warning mb-3">
+                                            <div class="card-header">Upcoming Exams</div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">2</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <small>Web Design</small>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"
+                                         aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small>Website Markup</small>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 72%"
+                                         aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small>One Page</small>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 89%"
+                                         aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small>Mobile Template</small>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 55%"
+                                         aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small>Backend API</small>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 66%"
+                                         aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!--        Adding Footer Fragment-->
+<div th:replace="~{footer-fragment::footer}"></div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/lib/wow/wow.min.js}"></script>
+<script th:src="@{/lib/easing/easing.min.js}"></script>
+<script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+<script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+
+<!-- Template Javascript -->
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
