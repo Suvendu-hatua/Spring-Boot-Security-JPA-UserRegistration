@@ -74,15 +74,14 @@ public class LoginController {
         log.info("Username:{}, Authorities:{}", username, auth.getAuthorities());
         //if the logged-in user is Student
         if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
-            return "redirect:/guardian/dashboard";
+            return "redirect:/student/dashboard";
         } else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TEACHER"))) {
             //instance of Teacher
-            model.addAttribute("teacher", null);
+            return "redirect:/teacher/dashboard";
         } else {
             //redirect to admin dashboard
             return "redirect:/admin/dashboard";
         }
-        return "error";
     }
 
 

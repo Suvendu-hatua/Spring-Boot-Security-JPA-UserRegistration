@@ -38,7 +38,7 @@ public class StudentController {
     private final UserService userService;
     private final StudentDao studentDao;
 
-    @GetMapping("/guardian/dashboard")
+    @GetMapping("/student/dashboard")
     public String dashboard(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //Extracting username
