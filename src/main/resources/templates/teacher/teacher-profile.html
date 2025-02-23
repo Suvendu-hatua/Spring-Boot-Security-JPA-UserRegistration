@@ -148,7 +148,7 @@
             <div class="">
                 <div class="welcome-banner mb-4">
                     <div>
-                        <h2>Welcome back, <span th:text="${student.guardianName+' !'}"></span></h2>
+                        <h2>Welcome back, <span th:text="${teacher.firstName+' '+teacher.lastName+' !'}"></span></h2>
                         <p>Always stay updated in your student portal</p>
                     </div>
                     <div>
@@ -164,73 +164,73 @@
                         </p>
                     </div>
                     <!-- modal  -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5 text-primary" id="exampleModalLabel">
-                                        <i class="fa-solid fa-child-reaching mx-2"></i>Update Child Details
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-dark">
-                                    <form id="modalForm" th:object="${child}" th:action="@{/updateAccount}" method="post">
-                                        <div class="row">
-                                            <div class="mb-3 col-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" name="firstName" id="firstName"
-                                                           placeholder="Firstname" th:value="*{firstName}">
-                                                    <label for="firstName">FirstName</label>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 col-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" name="lastName"
-                                                           id="lastName" placeholder="Lastname" th:value="*{lastName}">
-                                                    <label for="lastName">LastName</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="mb-3 col-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" name="age"
-                                                           id="age" placeholder="Age" th:value="*{age}">
-                                                    <label for="age">Age</label>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 col-6">
-                                                <label class="form-label fw-semibold">Gender</label>
-                                                <div class="form-floating">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                               name="gender" id="gender"  th:field="*{gender}" value="Male">
-                                                        <label class="form-check-label" for="gender">Male</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                               name="gender" id="inlineRadio2" th:field="*{gender}" value="Female">
-                                                        <label class="form-check-label"
-                                                               for="inlineRadio2">Female</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        Close
-                                    </button>
-                                    <button type="submit" class="btn btn-primary" form="modalForm">Save
-                                        Changes
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"-->
+<!--                         aria-hidden="true">-->
+<!--                        <div class="modal-dialog modal-dialog-centered">-->
+<!--                            <div class="modal-content">-->
+<!--                                <div class="modal-header">-->
+<!--                                    <h1 class="modal-title fs-5 text-primary" id="exampleModalLabel">-->
+<!--                                        <i class="fa-solid fa-child-reaching mx-2"></i>Update Child Details-->
+<!--                                    </h1>-->
+<!--                                    <button type="button" class="btn-close" data-bs-dismiss="modal"-->
+<!--                                            aria-label="Close"></button>-->
+<!--                                </div>-->
+<!--                                <div class="modal-body text-dark">-->
+<!--                                    <form id="modalForm" th:object="${child}" th:action="@{/updateAccount}" method="post">-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="mb-3 col-6">-->
+<!--                                                <div class="form-floating">-->
+<!--                                                    <input type="text" class="form-control" name="firstName" id="firstName"-->
+<!--                                                           placeholder="Firstname" th:value="*{firstName}">-->
+<!--                                                    <label for="firstName">FirstName</label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="mb-3 col-6">-->
+<!--                                                <div class="form-floating">-->
+<!--                                                    <input type="text" class="form-control" name="lastName"-->
+<!--                                                           id="lastName" placeholder="Lastname" th:value="*{lastName}">-->
+<!--                                                    <label for="lastName">LastName</label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="mb-3 col-6">-->
+<!--                                                <div class="form-floating">-->
+<!--                                                    <input type="text" class="form-control" name="age"-->
+<!--                                                           id="age" placeholder="Age" th:value="*{age}">-->
+<!--                                                    <label for="age">Age</label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="mb-3 col-6">-->
+<!--                                                <label class="form-label fw-semibold">Gender</label>-->
+<!--                                                <div class="form-floating">-->
+<!--                                                    <div class="form-check form-check-inline">-->
+<!--                                                        <input class="form-check-input" type="radio"-->
+<!--                                                               name="gender" id="gender"  th:field="*{gender}" value="Male">-->
+<!--                                                        <label class="form-check-label" for="gender">Male</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="form-check form-check-inline">-->
+<!--                                                        <input class="form-check-input" type="radio"-->
+<!--                                                               name="gender" id="inlineRadio2" th:field="*{gender}" value="Female">-->
+<!--                                                        <label class="form-check-label"-->
+<!--                                                               for="inlineRadio2">Female</label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                                <div class="modal-footer">-->
+<!--                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">-->
+<!--                                        Close-->
+<!--                                    </button>-->
+<!--                                    <button type="submit" class="btn btn-primary" form="modalForm">Save-->
+<!--                                        Changes-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                 </div>
 
@@ -242,42 +242,42 @@
                             <div class="row my-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0 text-info">Full Name</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.guardianName}"></div>
+                                    <div class="col-sm-9 text-secondary" th:text="${teacher.firstName+ ' '+teacher.lastName}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0 text-info">Email</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.guardianEmail}"></div>
+                                    <div class="col-sm-9 text-secondary" th:text="${teacher.email}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0 text-info">Phone</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.mobileNumber}"></div>
+                                    <div class="col-sm-9 text-secondary" th:text="${teacher.mobileNumber}"></div>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6 class="mb-0 text-info">Address</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.address}"></div>
+                                    <div class="col-sm-9 text-secondary" th:text="${teacher.address+', '+teacher.country}"></div>
                                 </div>
 
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Child First Name</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.studentFirstName}"></div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Child Last Name</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.studentLastName}"></div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Child Age</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.studentAge}"></div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Child Gender</h6>
-                                    <div class="col-sm-9 text-secondary" th:text="${student.studentGender}"></div>
-                                </div>
+<!--                            <div class="row">-->
+<!--                                <div class="col-sm-3">-->
+<!--                                    <h6 class="mb-0 text-info">Child First Name</h6>-->
+<!--                                    <div class="col-sm-9 text-secondary" th:text="${student.studentFirstName}"></div>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-3">-->
+<!--                                    <h6 class="mb-0 text-info">Child Last Name</h6>-->
+<!--                                    <div class="col-sm-9 text-secondary" th:text="${student.studentLastName}"></div>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-3">-->
+<!--                                    <h6 class="mb-0 text-info">Child Age</h6>-->
+<!--                                    <div class="col-sm-9 text-secondary" th:text="${student.studentAge}"></div>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-3">-->
+<!--                                    <h6 class="mb-0 text-info">Child Gender</h6>-->
+<!--                                    <div class="col-sm-9 text-secondary" th:text="${student.studentGender}"></div>-->
+<!--                                </div>-->
 
-                            </div>
+<!--                            </div>-->
                             <hr>
                         </div>
                     </div>
