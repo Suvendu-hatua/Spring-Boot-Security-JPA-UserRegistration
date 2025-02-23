@@ -5,12 +5,14 @@ import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.Teacher
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.dao.UserDao;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.Role;
 import com.spring_boot.security.SpringBoot_Security_JPA_Registration.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class UserService implements UserDetailsService {
     private final UserDao userDao;
     private final TeacherDao teacherDao;
     private  final StudentDao studentDao;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public User findUserByName(String userName) {
         return userDao.findByUsername(userName);
@@ -48,6 +51,17 @@ public class UserService implements UserDetailsService {
             authorities.add(tempAuthority);
         }
         return authorities;
+    }
+
+    @Transactional
+    public void changeUserPassword(User user, String newPassword) {
+        if(user.getPassword().equals(passwordEncoder.encode(newPassword))){
+            log.info("Old password and new password are equals");
+            return;
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        //saving updated changes into DB
+        userDao.save(user);
     }
 
 }
