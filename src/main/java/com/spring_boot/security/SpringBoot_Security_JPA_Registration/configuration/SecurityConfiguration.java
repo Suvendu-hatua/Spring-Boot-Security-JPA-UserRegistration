@@ -31,6 +31,8 @@ public class SecurityConfiguration {
                 configurer
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/resume/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").hasRole("TEACHER")
+                        .requestMatchers("/student/**").hasRole("STUDENT")
                         .requestMatchers("/security-meeting").hasAnyRole("ADMIN","TEACHER","STUDENT")
                         .requestMatchers(
                                 "/css/**","/img/**","/lib/**","/js/**","/admin/img/**"
