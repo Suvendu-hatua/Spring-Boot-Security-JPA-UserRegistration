@@ -70,7 +70,7 @@
         }
 
         .job-card,
-        .course-card, .notice-card {
+        .course-card, .notice-card, .holiday-card {
             border-radius: 15px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -79,6 +79,25 @@
 
         .job-section {
             display: none;
+        }
+
+        .notice-box {
+            height: 350px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            background-color: white;
+        }
+
+        .notice-card {
+            transition: transform 0.3s ease;
+        }
+
+        .notice-card:hover {
+            transform: scale(1.05);
+        }
+
+        .notice-card {
+            /*background: linear-gradient(180deg, #d3eef1, #95e9e8);*/
+            background: linear-gradient(180deg, white, #75e6e4);
         }
 
         .modal-content {
@@ -176,19 +195,20 @@
                             </h3>
                             <div class="row my-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Full Name</h6>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-address-card"></i> Full Name</h6>
                                     <div class="col-sm-9 text-secondary">Suvendu Hatua</div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Email</h6>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-envelope-circle-check"></i> Email
+                                    </h6>
                                     <div class="col-sm-9 text-secondary">suvenduhatua01@gmail.com</div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Phone</h6>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-phone-volume"></i> Phone</h6>
                                     <div class="col-sm-9 text-secondary">8918382864</div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 text-info">Address</h6>
+                                    <h6 class="mb-0 text-info"><i class="fa-solid fa-location-dot"></i> Address</h6>
                                     <div class="col-sm-9 text-secondary">Kharagpur, West Bengal</div>
                                 </div>
                             </div>
@@ -196,20 +216,31 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="text-info">Daily Notice</h4>
+
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="notice-card">
+                        <h4 class="text-info">Holidays</h4>
+                        <div class="holiday-card">
                             <h6>Prelim Payment Due</h6>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <a href="#">See more</a>
+                            <div class="d-flex justify-content-between">
+                                <a class="d-block" href="#">See more</a>
+                                <p class="card-text"><small class="text-body-secondary">Created at 23 - Feb - 25</small>
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="notice-card">
-                            <h6>Exam Schedule</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <a href="#">See more</a>
+                        <h4 class="text-info">Daily Notice</h4>
+                        <div class="notice-box rounded-3  p-4">
+                            <div th:each="notice:${notices}" class="notice-card mb-3">
+                                <h6 class="text-primary" th:text="${notice.noticeTitle}"></h6>
+                                <p th:text="${notice.noticeContent}"></p>
+                                <div class="d-flex justify-content-between">
+                                    <a class="d-block" href="#">See more</a>
+                                    <p class="card-text"><small class="text-body-secondary" th:text="${'Created at '+notice.noticeDate}"></small></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
